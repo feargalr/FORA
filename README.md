@@ -1,2 +1,2 @@
 # FORA
-Feargals Over Representation Analysis
+Feargal's Over Representation Analysis
