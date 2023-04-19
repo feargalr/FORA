@@ -211,14 +211,28 @@ FORA <- function(gene_list_to_test,vector_all_detected_genes,filename="FORA_resu
   frame_to_output3 = frame_to_output2
 
   ## Creating a column which shows the genes that contribute to the ORA signal
-  x <- strsplit(as.character(frame_to_output3[, 5]), " ")
-  x <- lapply(x, function(x) gsub(",", "", x))
-  x <- lapply(x, function(x) if (all(grepl("ENS", x))) ens2symbol[x, "external_gene_name"]
-              else if (all(grepl("hsa:", x))) hsa2symbol[x, "external_gene_name"]
-              else if (str_detect(string = x[1], pattern = "[A-Za-z]")) x
-              else entrez2symbol[x, "external_gene_name"])
-  y <- sapply(x, function(x) paste(x, collapse = ", "))
-  frame_to_output3[, 5] <- y
+  for (row in 1:nrow(frame_to_output3)){
+  x = frame_to_output3[row,5]
+  x = strsplit(x," ")
+  x = unlist(x)
+  x = gsub(",","",x)
+  
+  if(all(grepl("ENS",x))){
+    y = ens2symbol[x,"external_gene_name"]
+  } 
+  else if (all(grepl("hsa:",x))){
+    y = hsa2symbol[x,"external_gene_name"]
+  } 
+  else if (str_detect(string = x[1],pattern="[A-Za-z]"))
+    y = x
+  else {
+    y = entrez2symbol[x,"external_gene_name"]
+  }
+  y = paste(y,collapse=", ")
+  frame_to_output3[row,5] = y
+
+}
+
 
 
   ## Ordering and subsetting
