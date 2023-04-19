@@ -223,7 +223,7 @@ FORA <- function(gene_list_to_test,vector_all_detected_genes,filename="FORA_resu
   else if (all(grepl("hsa:",x))){
     y = hsa2symbol[x,"external_gene_name"]
   } 
-  else if (str_detect(string = x[1],pattern="[A-Za-z]"))
+  else if (grepl(pattern="[A-Za-z]",x[1]))
     y = x
   else {
     y = entrez2symbol[x,"external_gene_name"]
